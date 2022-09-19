@@ -1,14 +1,20 @@
 package com.backend.QuizUp_Backend.Entities;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Document
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document("quiz")
 public class Quiz {
     @Id
-    String quiz_id;
-    String quiz_question;
-    String quiz_answer;
+    String id;
+    String question;
+    String answer;
 }
