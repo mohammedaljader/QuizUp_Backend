@@ -1,5 +1,7 @@
 package com.backend.QuizUp_Backend.Entities;
 
+import com.backend.QuizUp_Backend.Entities.enums.Category;
+import com.backend.QuizUp_Backend.Entities.enums.Complexity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Document("quiz")
 public class Quiz {
@@ -21,4 +22,6 @@ public class Quiz {
     String question;
     List<Answer> answers;
     Integer correctAnswer;
+    Complexity complexity;
+    Integer bonus;
 }
