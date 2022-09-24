@@ -5,8 +5,7 @@ import com.backend.QuizUp_Backend.Entities.Quiz;
 import com.backend.QuizUp_Backend.Entities.User;
 import com.backend.QuizUp_Backend.Entities.enums.Category;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
-import com.backend.QuizUp_Backend.Repository.QuizRepository;
-import com.backend.QuizUp_Backend.Repository.UserRepository;
+import com.backend.QuizUp_Backend.Entities.enums.HelpOptions;
 import com.backend.QuizUp_Backend.Service.IQuizService;
 import com.backend.QuizUp_Backend.Service.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,21 +30,33 @@ public class QuizUpBackendApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(IQuizService quizService, IUserService userService) {
 		return args -> {
-			List<Answer> answerList = new ArrayList<>();
+//			List<Answer> answerList = new ArrayList<>();
+//
+//			answerList.add(new Answer( "test1"));
+//			answerList.add(new Answer( "test2"));
+//			answerList.add(new Answer( "test2"));
+//			answerList.add(new Answer( "test2"));
+//
+//
+//			Quiz quiz = new Quiz(UUID.randomUUID().toString(), Category.Films, "Test",  answerList,1,
+//					Complexity.Easy,100);
+//
+//			quizService.addQuiz(quiz);
 
-			answerList.add(new Answer( "test1"));
-			answerList.add(new Answer( "test2"));
-			answerList.add(new Answer( "test2"));
-			answerList.add(new Answer( "test2"));
+			String userid = UUID.randomUUID().toString();
 
-
-			Quiz quiz = new Quiz(UUID.randomUUID().toString(), Category.Films, "Test",  answerList,1,
-					Complexity.Easy,100);
-
-			quizService.addQuiz(quiz);
-
-			User user = new User(UUID.randomUUID().toString(), "Mohammed");
+			User user = new User(userid, "Mohammed");
 			userService.addUser(user);
+
+
+			// test update function
+			User updateUser = new User(userid,List.of(HelpOptions.deleteTwoQuestions, HelpOptions.askPublic), 100);
+
+			userService.updateUser(updateUser);
+
+
+			boolean result = userService.deleteUser(userid);
+			log.info("deleted is : "+ result);
 		};
 	}
 }

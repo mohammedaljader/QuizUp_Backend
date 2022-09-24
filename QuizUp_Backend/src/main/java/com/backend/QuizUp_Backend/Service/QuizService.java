@@ -5,6 +5,7 @@ import com.backend.QuizUp_Backend.Repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,31 @@ public class QuizService implements IQuizService {
     @Override
     public Optional<Quiz> getQuizById(String id) {
         return quizRepository.findById(id);
+    }
+
+    @Override
+    public boolean updateQuiz(Quiz quiz) {
+        Quiz oldQuiz = new Quiz(quiz.getId(), quiz.getCategory(), quiz.getQuestion()
+        ,quiz.getAnswers(), quiz.getCorrectAnswer(), quiz.getComplexity(), quiz.getBonus());
+
+        quizRepository.save(oldQuiz);
+
+        return true;
+    }
+
+    @Override
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
+    }
+
+    @Override
+    public boolean deleteQuiz(String id) {
+        Optional<Quiz> quiz = quizRepository.findById(id);
+
+        if(quiz.isEmpty()){
+            return false;
+        }
+        quizRepository.delete(quiz.get());
+        return true;
     }
 }
