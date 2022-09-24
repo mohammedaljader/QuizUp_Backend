@@ -1,20 +1,16 @@
 package com.backend.QuizUp_Backend;
 
-import com.backend.QuizUp_Backend.Entities.Answer;
-import com.backend.QuizUp_Backend.Entities.Quiz;
+import com.backend.QuizUp_Backend.Dto.UserDto;
 import com.backend.QuizUp_Backend.Entities.User;
-import com.backend.QuizUp_Backend.Entities.enums.Category;
-import com.backend.QuizUp_Backend.Entities.enums.Complexity;
 import com.backend.QuizUp_Backend.Entities.enums.HelpOptions;
-import com.backend.QuizUp_Backend.Service.IQuizService;
-import com.backend.QuizUp_Backend.Service.IUserService;
+import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
+import com.backend.QuizUp_Backend.Service.Interfaces.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,14 +41,14 @@ public class QuizUpBackendApplication {
 
 			String userid = UUID.randomUUID().toString();
 
-			User user = new User(userid, "Mohammed");
-			userService.addUser(user);
+			UserDto userDto = new UserDto(userid, "Mohammed");
+			userService.addUser(userDto);
 
 
 			// test update function
-			User updateUser = new User(userid,List.of(HelpOptions.deleteTwoQuestions, HelpOptions.askPublic), 100);
+			UserDto updateUserDto = new UserDto(userid,"Mohammed",List.of("deleteTwoQuestions", "askPublic"), 100);
 
-			userService.updateUser(updateUser);
+			userService.updateUser(updateUserDto);
 
 
 			boolean result = userService.deleteUser(userid);
