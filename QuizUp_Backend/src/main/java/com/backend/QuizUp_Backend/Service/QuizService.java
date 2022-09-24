@@ -2,6 +2,8 @@ package com.backend.QuizUp_Backend.Service;
 
 import com.backend.QuizUp_Backend.Dto.QuizDto;
 import com.backend.QuizUp_Backend.Entities.Quiz;
+import com.backend.QuizUp_Backend.Entities.enums.Category;
+import com.backend.QuizUp_Backend.Entities.enums.Complexity;
 import com.backend.QuizUp_Backend.Mappers.IQuizMapper;
 import com.backend.QuizUp_Backend.Repository.QuizRepository;
 import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
@@ -66,5 +68,17 @@ public class QuizService implements IQuizService {
         }
         quizRepository.delete(quiz.get());
         return true;
+    }
+
+    @Override
+    public List<QuizDto> getQuizzesByCategory(String category) {
+        List<Quiz> quizzes = quizRepository.getQuizzesByCategory(Enum.valueOf(Category.class, category));
+        return quizMapper.convertEntityToDto(quizzes);
+    }
+
+    @Override
+    public List<QuizDto> getQuizzesByComplexity(String complexity) {
+        List<Quiz> quizzes = quizRepository.getQuizzesByComplexity(Enum.valueOf(Complexity.class, complexity));
+        return quizMapper.convertEntityToDto(quizzes);
     }
 }

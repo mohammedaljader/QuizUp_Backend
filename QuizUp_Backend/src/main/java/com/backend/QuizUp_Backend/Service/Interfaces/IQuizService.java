@@ -1,10 +1,8 @@
 package com.backend.QuizUp_Backend.Service.Interfaces;
 
 import com.backend.QuizUp_Backend.Dto.QuizDto;
-import com.backend.QuizUp_Backend.Entities.Quiz;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IQuizService {
 
@@ -17,4 +15,8 @@ public interface IQuizService {
     List<QuizDto> getAllQuizzes();
 
     boolean deleteQuiz(String id);
+
+    List<QuizDto> getQuizzesByCategory(String category);
+
+    List<QuizDto>  getQuizzesByComplexity(String complexity);
 }

@@ -49,11 +49,9 @@ public class UserService implements IUserService {
     public boolean updateUser(UserDto userDto) {
         Optional<User> oldUser = userRepository.findById(userDto.getId());
         User updatedUser;
-
         if(oldUser.isEmpty()){
             return false;
         }
-
         if(userDto.getHelpOptions().size() != 3 && !Objects.equals(oldUser.get().getBonus(), userDto.getBonus())){
             List<HelpOptions> helpOptions = userDto.getHelpOptions().stream().map(x -> Enum.valueOf(HelpOptions.class, x)).toList();
             updatedUser = new User(userDto.getId(),oldUser.get().getFullName(), helpOptions, userDto.getBonus());

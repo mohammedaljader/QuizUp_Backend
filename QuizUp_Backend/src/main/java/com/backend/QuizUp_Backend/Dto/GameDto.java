@@ -5,14 +5,16 @@ import lombok.Data;
 
 import java.util.List;
 
+
 @Data
 @AllArgsConstructor
-public class QuizDto {
-    String id;
+public class GameDto {
+    String quizId;
+    String userId;
+    String fullName;
     String question;
     List<AnswerDto> answers;
-    String Category;
-    Integer correctAnswer;
-    String complexity;
-    Integer bonus;
+    List<String> helpOptions;
+    Integer userBonus;
+    Integer quizBonus;
 }

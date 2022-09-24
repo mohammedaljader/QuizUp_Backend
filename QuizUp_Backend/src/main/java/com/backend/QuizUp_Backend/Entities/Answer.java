@@ -10,13 +10,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Setter
 public class Answer {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
+//    private static final AtomicInteger count = new AtomicInteger(0);
     Integer answerNumber;
     String answerText;
 
 
-    public Answer(String answerText){
+    public Answer(Integer answerNumber,String answerText){
         this.answerText= answerText;
-        this.answerNumber = count.incrementAndGet();
+        this.answerNumber = answerNumber;
+//        this.answerNumber = count.incrementAndGet();
     }
 }

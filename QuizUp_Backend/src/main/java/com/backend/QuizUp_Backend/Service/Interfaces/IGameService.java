@@ -1,8 +1,15 @@
 package com.backend.QuizUp_Backend.Service.Interfaces;
 
-import com.backend.QuizUp_Backend.Entities.Quiz;
+import com.backend.QuizUp_Backend.Dto.GameDto;
+
 
 public interface IGameService {
 
-    Quiz getNewGame();
+    GameDto getNewGame(String userId);
+
+    boolean checkGame(String userId, String quizId, Integer answer);
+
+    GameDto deleteTwoAnswers(String userId, String quizId);
+
+    GameDto callFriend(String userId, String quizId);
 }

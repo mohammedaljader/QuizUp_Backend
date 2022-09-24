@@ -51,8 +51,8 @@ public class QuizUpBackendApplication {
 			userService.updateUser(updateUserDto);
 
 
-			boolean result = userService.deleteUser(userid);
-			log.info("deleted is : "+ result);
+//			boolean result = userService.deleteUser(userid);
+//			log.info("deleted is : "+ result);
 		};
 	}
 }

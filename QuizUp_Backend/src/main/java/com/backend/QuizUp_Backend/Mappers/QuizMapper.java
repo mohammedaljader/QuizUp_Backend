@@ -1,5 +1,6 @@
 package com.backend.QuizUp_Backend.Mappers;
 
+import com.backend.QuizUp_Backend.Dto.AnswerDto;
 import com.backend.QuizUp_Backend.Dto.QuizDto;
 import com.backend.QuizUp_Backend.Entities.Answer;
 import com.backend.QuizUp_Backend.Entities.Quiz;
@@ -17,7 +18,7 @@ public class QuizMapper implements IQuizMapper{
     public List<QuizDto> convertEntityToDto(List<Quiz> quizzes) {
         List<QuizDto> quizDtoArrayList = new ArrayList<>();
         for(Quiz quiz : quizzes){
-            List<String> answers = quiz.getAnswers().stream().map(Answer::getAnswerText).toList();
+            List<AnswerDto> answers = quiz.getAnswers().stream().map(x -> new AnswerDto(x.getAnswerNumber(), x.getAnswerText())).toList();
             QuizDto quizDto = new QuizDto(quiz.getId(), quiz.getQuestion(), answers,
                     quiz.getCategory().toString(),
                     quiz.getCorrectAnswer(),
@@ -30,7 +31,7 @@ public class QuizMapper implements IQuizMapper{
 
     @Override
     public QuizDto convertEntityToDto(Quiz quiz) {
-        List<String> answers = quiz.getAnswers().stream().map(Answer::getAnswerText).toList();
+        List<AnswerDto> answers = quiz.getAnswers().stream().map(x -> new AnswerDto(x.getAnswerNumber(), x.getAnswerText())).toList();
         return new QuizDto(quiz.getId(), quiz.getQuestion(), answers,
                 quiz.getCategory().toString(),
                 quiz.getCorrectAnswer(),
@@ -40,7 +41,7 @@ public class QuizMapper implements IQuizMapper{
 
     @Override
     public Quiz convertDtoToEntity(QuizDto quizDto) {
-        List<Answer> answers = quizDto.getAnswers().stream().map(Answer::new).toList();
+        List<Answer> answers = quizDto.getAnswers().stream().map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList();
         return new Quiz(UUID.randomUUID().toString(),
                 Enum.valueOf(Category.class,quizDto.getCategory()),
                 quizDto.getQuestion(),
