@@ -11,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -39,20 +41,36 @@ public class QuizUpBackendApplication {
 //
 //			quizService.addQuiz(quiz);
 
-			String userid = UUID.randomUUID().toString();
-
-			UserDto userDto = new UserDto(userid, "Mohammed");
-			userService.addUser(userDto);
-
-
-			// test update function
-			UserDto updateUserDto = new UserDto(userid,"Mohammed",List.of("deleteTwoQuestions", "askPublic"), 100);
-
-			userService.updateUser(updateUserDto);
+//			String userid = UUID.randomUUID().toString();
+//
+//			UserDto userDto = new UserDto(userid, "Mohammed");
+//			userService.addUser(userDto);
+//
+//
+//			// test update function
+//			UserDto updateUserDto = new UserDto(userid,"Mohammed",List.of("deleteTwoQuestions", "askPublic"), 100);
+//
+//			userService.updateUser(updateUserDto);
 
 
 //			boolean result = userService.deleteUser(userid);
 //			log.info("deleted is : "+ result);
+
+//			Random randomizer = new Random();
+//			int correctAnswersPercentage = randomizer.nextInt(66,81);
+//			Integer restPercentage = 100 - correctAnswersPercentage;
+//			log.info(restPercentage.toString());
+
+//			List<Integer> integers = new ArrayList<>();
+			int arr[] = new int[3];
+			for (int i = 0; i < 10; i++)
+			{
+				arr[(int)(Math.random() * 3)]++;
+			}
+
+			log.info(""+arr[0]);
+
+
 		};
 	}
 }

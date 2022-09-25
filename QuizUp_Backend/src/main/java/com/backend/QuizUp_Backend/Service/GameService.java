@@ -1,9 +1,6 @@
 package com.backend.QuizUp_Backend.Service;
 
-import com.backend.QuizUp_Backend.Dto.AnswerDto;
-import com.backend.QuizUp_Backend.Dto.GameDto;
-import com.backend.QuizUp_Backend.Dto.QuizDto;
-import com.backend.QuizUp_Backend.Dto.UserDto;
+import com.backend.QuizUp_Backend.Dto.*;
 import com.backend.QuizUp_Backend.Mappers.IGameMapper;
 import com.backend.QuizUp_Backend.Service.Interfaces.IGameService;
 import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
@@ -11,10 +8,7 @@ import com.backend.QuizUp_Backend.Service.Interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class GameService implements IGameService {
@@ -105,5 +99,42 @@ public class GameService implements IGameService {
         }
         quizDto.setAnswers(answersToSend);
         return gameMapper.convertToDto(quizDto, userDto);
+    }
+
+    @Override
+    public PublicDto askPublic(String userId, String quizId) {
+        UserDto userDto = userService.getUserById(userId);
+        QuizDto quizDto = quizService.getQuizById(quizId);
+        List<AnswerDto> publicAnswers = new ArrayList<>();
+        Integer correctAnswer = quizDto.getCorrectAnswer();
+        List<AnswerDto> notCorrectAnswers = quizDto.getAnswers().stream().filter(x -> !Objects.equals(x.getAnswerNumber(), correctAnswer)).toList();
+
+
+        Random randomizer = new Random();
+        int correctAnswersPercentage = randomizer.nextInt(66,81);
+        publicAnswers.add(new AnswerDto(correctAnswer, Integer.toString(correctAnswersPercentage)));
+        Integer restPercentage = 100 - correctAnswersPercentage;
+        List<Integer> restPublicPercentage = getRandomPercentage(3, restPercentage);
+
+        for(int i = 0 ; i < 3; i++){
+            AnswerDto answerDto = new AnswerDto(notCorrectAnswers.get(i).getAnswerNumber(), restPublicPercentage.get(i).toString());
+            publicAnswers.add(answerDto);
+        }
+
+        return gameMapper.convertPublicAnswersToDto(quizDto, userDto, publicAnswers);
+    }
+
+    // Function to generate a list of, m random non-negative integers, whose sum is n
+    private List<Integer> getRandomPercentage(Integer m, Integer n){
+        // Create an array of size m where every element is initialized to 0
+        Integer[] arr = new Integer[m];
+
+        // To make the sum of the final list as n
+        for (int i = 0; i < n; i++)
+        {
+            // Increment any random element from the array by 1
+            arr[(int)(Math.random() * m)]++;
+        }
+        return Arrays.asList(arr);
     }
 }
