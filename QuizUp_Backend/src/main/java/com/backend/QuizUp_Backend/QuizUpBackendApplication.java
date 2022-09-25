@@ -55,22 +55,6 @@ public class QuizUpBackendApplication {
 
 //			boolean result = userService.deleteUser(userid);
 //			log.info("deleted is : "+ result);
-
-//			Random randomizer = new Random();
-//			int correctAnswersPercentage = randomizer.nextInt(66,81);
-//			Integer restPercentage = 100 - correctAnswersPercentage;
-//			log.info(restPercentage.toString());
-
-//			List<Integer> integers = new ArrayList<>();
-			int arr[] = new int[3];
-			for (int i = 0; i < 10; i++)
-			{
-				arr[(int)(Math.random() * 3)]++;
-			}
-
-			log.info(""+arr[0]);
-
-
 		};
 	}
 }
