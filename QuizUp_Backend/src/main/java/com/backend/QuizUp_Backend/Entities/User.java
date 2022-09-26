@@ -33,10 +33,9 @@ public class User {
         this.bonus = 0;
     }
 
-    public User(String id, List<HelpOptions> helpOptionsList, Integer bonus) {
+    public User(String id, List<HelpOptions> helpOptionsList) {
         this.id = id;
         this.helpOptionsList = helpOptionsList;
-        this.bonus = bonus;
     }
 
     public User(String id, Integer bonus) {

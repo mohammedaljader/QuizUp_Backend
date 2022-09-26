@@ -19,4 +19,6 @@ public interface IQuizService {
     List<QuizDto> getQuizzesByCategory(String category);
 
     List<QuizDto>  getQuizzesByComplexity(String complexity);
+
+    List<QuizDto> getQuizzesByComplexityAndBonus(String complexity, Integer bonus);
 }

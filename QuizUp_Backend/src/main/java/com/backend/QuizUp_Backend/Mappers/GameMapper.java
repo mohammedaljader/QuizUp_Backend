@@ -29,4 +29,16 @@ public class GameMapper implements IGameMapper {
                 quizDto.getBonus(),
                 publicAnswers);
     }
+
+    @Override
+    public FriendDto convertFriendAnswersToDto(QuizDto quizDto, UserDto userDto, AnswerDto friendDto) {
+        return new FriendDto(quizDto.getId(),
+                userDto.getId(), userDto.getFullName(),
+                quizDto.getQuestion(),
+                quizDto.getAnswers(),
+                userDto.getHelpOptions(),
+                userDto.getBonus(),
+                quizDto.getBonus(),
+                friendDto);
+    }
 }

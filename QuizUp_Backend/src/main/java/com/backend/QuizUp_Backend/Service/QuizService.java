@@ -81,4 +81,10 @@ public class QuizService implements IQuizService {
         List<Quiz> quizzes = quizRepository.getQuizzesByComplexity(Enum.valueOf(Complexity.class, complexity));
         return quizMapper.convertEntityToDto(quizzes);
     }
+
+    @Override
+    public List<QuizDto> getQuizzesByComplexityAndBonus(String complexity, Integer bonus) {
+        List<Quiz> quizzes = quizRepository.getQuizzesByComplexityAndBonus(Enum.valueOf(Complexity.class, complexity), bonus);
+        return quizMapper.convertEntityToDto(quizzes);
+    }
 }

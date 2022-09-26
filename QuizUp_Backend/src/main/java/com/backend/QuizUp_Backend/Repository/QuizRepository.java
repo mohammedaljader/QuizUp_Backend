@@ -16,4 +16,6 @@ public interface QuizRepository
     List<Quiz> getQuizzesByCategory(Category category);
 
     List<Quiz> getQuizzesByComplexity(Complexity complexity);
+
+    List<Quiz> getQuizzesByComplexityAndBonus(Complexity complexity, Integer bonus);
 }

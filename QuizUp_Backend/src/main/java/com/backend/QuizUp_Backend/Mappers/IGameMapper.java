@@ -8,4 +8,5 @@ import java.util.List;
 public interface IGameMapper {
     GameDto convertToDto(QuizDto quizDto, UserDto userDto);
     PublicDto convertPublicAnswersToDto(QuizDto quizDto, UserDto userDto, List<AnswerDto> publicAnswers);
+    FriendDto convertFriendAnswersToDto(QuizDto quizDto, UserDto userDto, AnswerDto friendDto);
 }
