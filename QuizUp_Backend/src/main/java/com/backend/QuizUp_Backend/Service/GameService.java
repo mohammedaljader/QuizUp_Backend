@@ -154,8 +154,7 @@ public class GameService implements IGameService {
         UserDto userDto = userService.getUserById(userId);
         QuizDto quizDto = quizService.getQuizById(quizId);
 
-        //checks if help options are used
-        if(!helpOption.isEmpty()){
+        if(helpOption != null){
             return getQuizByHelpOptions(userDto.getId(), quizDto.getId(), helpOption);
         } else if (Objects.equals(quizDto.getCorrectAnswer(), answer)) {
             updateUserBonus(userDto, quizDto);

@@ -29,7 +29,7 @@ public class QuizService implements IQuizService {
 
     @Override
     public boolean addQuiz(QuizDto quizDto) {
-        Quiz quiz = quizMapper.convertDtoToEntity(quizDto);
+        Quiz quiz = quizMapper.convertDtoToEntity(quizDto, true);
         quizRepository.save(quiz);
         return true;
     }
@@ -45,7 +45,7 @@ public class QuizService implements IQuizService {
 
     @Override
     public boolean updateQuiz(QuizDto quizDto) {
-        Quiz quiz = quizMapper.convertDtoToEntity(quizDto);
+        Quiz quiz = quizMapper.convertDtoToEntity(quizDto, false);
         Quiz oldQuiz = new Quiz(quiz.getId(), quiz.getCategory(), quiz.getQuestion()
         ,quiz.getAnswers(), quiz.getCorrectAnswer(), quiz.getComplexity(), quiz.getBonus());
 

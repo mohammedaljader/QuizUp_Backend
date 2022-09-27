@@ -40,14 +40,25 @@ public class QuizMapper implements IQuizMapper{
     }
 
     @Override
-    public Quiz convertDtoToEntity(QuizDto quizDto) {
-        List<Answer> answers = quizDto.getAnswers().stream().map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList();
-        return new Quiz(UUID.randomUUID().toString(),
-                Enum.valueOf(Category.class,quizDto.getCategory()),
-                quizDto.getQuestion(),
-                answers,
-                quizDto.getCorrectAnswer(),
-                Enum.valueOf(Complexity.class,quizDto.getComplexity()),
-                quizDto.getBonus());
+    public Quiz convertDtoToEntity(QuizDto quizDto,boolean isNewQuiz) {
+        if(isNewQuiz){
+            return new Quiz(UUID.randomUUID().toString(),
+                    Enum.valueOf(Category.class,quizDto.getCategory()),
+                    quizDto.getQuestion(),
+                    quizDto.getAnswers().stream()
+                            .map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList(),
+                    quizDto.getCorrectAnswer(),
+                    Enum.valueOf(Complexity.class,quizDto.getComplexity()),
+                    quizDto.getBonus());
+        }else {
+            return new Quiz(quizDto.getId(),
+                    Enum.valueOf(Category.class,quizDto.getCategory()),
+                    quizDto.getQuestion(),
+                    quizDto.getAnswers().stream()
+                            .map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList(),
+                    quizDto.getCorrectAnswer(),
+                    Enum.valueOf(Complexity.class,quizDto.getComplexity()),
+                    quizDto.getBonus());
+        }
     }
 }

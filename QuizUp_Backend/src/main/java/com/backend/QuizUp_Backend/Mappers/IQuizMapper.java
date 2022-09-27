@@ -11,5 +11,5 @@ public interface IQuizMapper {
 
     QuizDto convertEntityToDto(Quiz quiz);
 
-    Quiz convertDtoToEntity(QuizDto quizDto);
+    Quiz convertDtoToEntity(QuizDto quizDto, boolean isNewQuiz);
 }
