@@ -15,7 +15,7 @@ public class GameMapper implements IGameMapper {
                 quizDto.getAnswers(),
                 userDto.getHelpOptions(),
                 userDto.getBonus(),
-                quizDto.getBonus());
+                quizDto.getBonus(),"");
     }
 
     @Override
@@ -27,6 +27,7 @@ public class GameMapper implements IGameMapper {
                 userDto.getHelpOptions(),
                 userDto.getBonus(),
                 quizDto.getBonus(),
+                "",
                 publicAnswers);
     }
 
@@ -39,6 +40,7 @@ public class GameMapper implements IGameMapper {
                 userDto.getHelpOptions(),
                 userDto.getBonus(),
                 quizDto.getBonus(),
+                "",
                 friendDto);
     }
 }

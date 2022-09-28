@@ -3,17 +3,21 @@ package com.backend.QuizUp_Backend.Service;
 import com.backend.QuizUp_Backend.Dto.*;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
 import com.backend.QuizUp_Backend.Entities.enums.HelpOptions;
+import com.backend.QuizUp_Backend.Entities.enums.Level;
 import com.backend.QuizUp_Backend.Mappers.IGameMapper;
 import com.backend.QuizUp_Backend.Service.Interfaces.IGameService;
 import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
 import com.backend.QuizUp_Backend.Service.Interfaces.IUserService;
+import com.backend.QuizUp_Backend.Util.LevelUtil;
+import com.backend.QuizUp_Backend.Util.MessageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class GameService implements IGameService {
 
     private final IQuizService quizService;
@@ -34,19 +38,17 @@ public class GameService implements IGameService {
         List<QuizDto> quizzes;
         QuizDto randomQuiz;
         Integer userBonus = userDto.getBonus();
-        if(userBonus == 0){
-            userBonus = 100;
-        }
+        Level level = LevelUtil.getLevel(userBonus).next();
         if(userDto.getBonus() <= 1000){
-            quizzes = quizService.getQuizzesByComplexityAndBonus(Complexity.Easy.name(), userBonus);
+            quizzes = quizService.getQuizzesByComplexityAndLevel(Complexity.Easy.name(), level);
             randomQuiz = quizzes.get(randomizer.nextInt(quizzes.size()));
             return gameMapper.convertToDto(randomQuiz, userDto);
         } else if (userDto.getBonus() > 1000 && userDto.getBonus() <= 32000) {
-            quizzes = quizService.getQuizzesByComplexityAndBonus(Complexity.Intermediate.name(), userBonus);
+            quizzes = quizService.getQuizzesByComplexityAndLevel(Complexity.Intermediate.name(), level);
             randomQuiz = quizzes.get(randomizer.nextInt(quizzes.size()));
             return gameMapper.convertToDto(randomQuiz, userDto);
         } else if (userDto.getBonus() > 32000 && userDto.getBonus() <= 1000000) {
-            quizzes = quizService.getQuizzesByComplexityAndBonus(Complexity.Hard.name(), userBonus);
+            quizzes = quizService.getQuizzesByComplexityAndLevel(Complexity.Hard.name(), level);
             randomQuiz = quizzes.get(randomizer.nextInt(quizzes.size()));
             return gameMapper.convertToDto(randomQuiz, userDto);
         }
@@ -154,13 +156,17 @@ public class GameService implements IGameService {
         UserDto userDto = userService.getUserById(userId);
         QuizDto quizDto = quizService.getQuizById(quizId);
 
-        if(helpOption != null){
-            return getQuizByHelpOptions(userDto.getId(), quizDto.getId(), helpOption);
-        } else if (Objects.equals(quizDto.getCorrectAnswer(), answer)) {
+        if (Objects.equals(quizDto.getCorrectAnswer(), answer)) {
             updateUserBonus(userDto, quizDto);
-            return getNewQuiz(userDto.getId());
+            if(userDto.getBonus() == 1000000){
+                return new GameDto(MessageUtil.winGame);
+            }else {
+                return getNewQuiz(userDto.getId());
+            }
+        }else if(helpOption != null){
+            return getQuizByHelpOptions(userDto.getId(), quizDto.getId(), helpOption);
         }else {
-            throw new RuntimeException("Game Over!"); //gameOver
+            return new GameDto(MessageUtil.loseGame);
         }
     }
 

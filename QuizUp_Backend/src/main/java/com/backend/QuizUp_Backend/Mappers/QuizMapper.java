@@ -6,6 +6,8 @@ import com.backend.QuizUp_Backend.Entities.Answer;
 import com.backend.QuizUp_Backend.Entities.Quiz;
 import com.backend.QuizUp_Backend.Entities.enums.Category;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
+import com.backend.QuizUp_Backend.Entities.enums.Level;
+import com.backend.QuizUp_Backend.Util.LevelUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -49,7 +51,8 @@ public class QuizMapper implements IQuizMapper{
                             .map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList(),
                     quizDto.getCorrectAnswer(),
                     Enum.valueOf(Complexity.class,quizDto.getComplexity()),
-                    quizDto.getBonus());
+                    quizDto.getBonus(),
+                    LevelUtil.getLevel(quizDto.getBonus()));
         }else {
             return new Quiz(quizDto.getId(),
                     Enum.valueOf(Category.class,quizDto.getCategory()),
@@ -58,7 +61,9 @@ public class QuizMapper implements IQuizMapper{
                             .map(x -> new Answer(x.getAnswerNumber(), x.getAnswerText())).toList(),
                     quizDto.getCorrectAnswer(),
                     Enum.valueOf(Complexity.class,quizDto.getComplexity()),
-                    quizDto.getBonus());
+                    quizDto.getBonus(), LevelUtil.getLevel(quizDto.getBonus()));
         }
     }
+
+
 }

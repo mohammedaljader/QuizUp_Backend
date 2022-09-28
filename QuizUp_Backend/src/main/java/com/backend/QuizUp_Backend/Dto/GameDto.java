@@ -19,4 +19,10 @@ public class GameDto {
     List<String> helpOptions;
     Integer userBonus;
     Integer quizBonus;
+
+    String message;
+
+    public GameDto(String message) {
+        this.message = message;
+    }
 }

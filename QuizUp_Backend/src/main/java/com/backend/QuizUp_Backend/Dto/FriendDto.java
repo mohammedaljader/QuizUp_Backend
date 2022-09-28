@@ -5,8 +5,8 @@ import java.util.List;
 public class FriendDto extends GameDto {
     AnswerDto friendAnswer;
 
-    public FriendDto(String quizId, String userId, String fullName, String question, List<AnswerDto> answers, List<String> helpOptions, Integer userBonus, Integer quizBonus, AnswerDto friendAnswer) {
-        super(quizId, userId, fullName, question, answers, helpOptions, userBonus, quizBonus);
+    public FriendDto(String quizId, String userId, String fullName, String question, List<AnswerDto> answers, List<String> helpOptions, Integer userBonus, Integer quizBonus,String message, AnswerDto friendAnswer) {
+        super(quizId, userId, fullName, question, answers, helpOptions, userBonus, quizBonus, message);
         this.friendAnswer = friendAnswer;
     }
 

@@ -2,6 +2,7 @@ package com.backend.QuizUp_Backend.Entities;
 
 import com.backend.QuizUp_Backend.Entities.enums.Category;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
+import com.backend.QuizUp_Backend.Entities.enums.Level;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,5 @@ public class Quiz {
     Integer correctAnswer;
     Complexity complexity;
     Integer bonus;
+    Level level;
 }

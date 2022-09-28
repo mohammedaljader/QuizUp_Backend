@@ -4,14 +4,17 @@ import com.backend.QuizUp_Backend.Dto.QuizDto;
 import com.backend.QuizUp_Backend.Entities.Quiz;
 import com.backend.QuizUp_Backend.Entities.enums.Category;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
+import com.backend.QuizUp_Backend.Entities.enums.Level;
 import com.backend.QuizUp_Backend.Mappers.IQuizMapper;
 import com.backend.QuizUp_Backend.Repository.QuizRepository;
 import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
+import com.backend.QuizUp_Backend.Util.LevelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService implements IQuizService {
@@ -47,7 +50,7 @@ public class QuizService implements IQuizService {
     public boolean updateQuiz(QuizDto quizDto) {
         Quiz quiz = quizMapper.convertDtoToEntity(quizDto, false);
         Quiz oldQuiz = new Quiz(quiz.getId(), quiz.getCategory(), quiz.getQuestion()
-        ,quiz.getAnswers(), quiz.getCorrectAnswer(), quiz.getComplexity(), quiz.getBonus());
+        ,quiz.getAnswers(), quiz.getCorrectAnswer(), quiz.getComplexity(), quiz.getBonus(), LevelUtil.getLevel(quiz.getBonus()));
 
         quizRepository.save(oldQuiz);
 
@@ -85,6 +88,12 @@ public class QuizService implements IQuizService {
     @Override
     public List<QuizDto> getQuizzesByComplexityAndBonus(String complexity, Integer bonus) {
         List<Quiz> quizzes = quizRepository.getQuizzesByComplexityAndBonus(Enum.valueOf(Complexity.class, complexity), bonus);
+        return quizMapper.convertEntityToDto(quizzes);
+    }
+
+    @Override
+    public List<QuizDto> getQuizzesByComplexityAndLevel(String complexity, Level level) {
+        List<Quiz> quizzes = quizRepository.getQuizzesByComplexityAndLevel(Enum.valueOf(Complexity.class, complexity), level);
         return quizMapper.convertEntityToDto(quizzes);
     }
 }

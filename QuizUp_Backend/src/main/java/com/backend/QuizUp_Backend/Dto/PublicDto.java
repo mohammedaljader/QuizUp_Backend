@@ -6,8 +6,8 @@ public class PublicDto extends GameDto{
 
     List<AnswerDto> publicAnswers;
 
-    public PublicDto(String quizId, String userId, String fullName, String question, List<AnswerDto> answers, List<String> helpOptions, Integer userBonus, Integer quizBonus,List<AnswerDto> publicAnswers) {
-        super(quizId, userId, fullName, question, answers, helpOptions, userBonus, quizBonus);
+    public PublicDto(String quizId, String userId, String fullName, String question, List<AnswerDto> answers, List<String> helpOptions, Integer userBonus, Integer quizBonus,String message,List<AnswerDto> publicAnswers) {
+        super(quizId, userId, fullName, question, answers, helpOptions, userBonus, quizBonus, message);
 
         this.publicAnswers = publicAnswers;
     }
