@@ -1,6 +1,7 @@
 package com.backend.QuizUp_Backend.Service;
 
 import com.backend.QuizUp_Backend.Dto.*;
+import com.backend.QuizUp_Backend.Entities.Quiz;
 import com.backend.QuizUp_Backend.Entities.enums.Complexity;
 import com.backend.QuizUp_Backend.Entities.enums.HelpOptions;
 import com.backend.QuizUp_Backend.Entities.enums.Level;
@@ -9,12 +10,14 @@ import com.backend.QuizUp_Backend.Service.Interfaces.IGameService;
 import com.backend.QuizUp_Backend.Service.Interfaces.IQuizService;
 import com.backend.QuizUp_Backend.Service.Interfaces.IUserService;
 import com.backend.QuizUp_Backend.Util.LevelUtil;
+import com.backend.QuizUp_Backend.Util.MathUtil;
 import com.backend.QuizUp_Backend.Util.MessageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -119,7 +122,7 @@ public class GameService implements IGameService {
         int correctAnswersPercentage = randomizer.nextInt(66,76);
         publicAnswers.add(new AnswerDto(correctAnswer, Integer.toString(correctAnswersPercentage)));
         Integer restPercentage = 100 - correctAnswersPercentage;
-        List<Integer> restPublicPercentage = getRandomPercentage(3, restPercentage);
+        List<Integer> restPublicPercentage = MathUtil.getRandomPercentage(3, restPercentage);
 
         for(int i = 0 ; i < 3; i++){
             AnswerDto answerDto = new AnswerDto(notCorrectAnswers.get(i).getAnswerNumber(), restPublicPercentage.get(i).toString());
@@ -129,7 +132,7 @@ public class GameService implements IGameService {
         return gameMapper.convertPublicAnswersToDto(quizDto, userDto, publicAnswers);
     }
 
-    @Override
+
     public GameDto getQuizByHelpOptions(String userId, String quizId, String helpOption) {
         UserDto userDto = userService.getUserById(userId);
         List<String> helpOptions = userDto.getHelpOptions();
@@ -176,23 +179,20 @@ public class GameService implements IGameService {
         return getNewQuiz(userDto.getId());
     }
 
+    @Override
+    public List<TopTenDto> getTopTen() {
+        List<UserDto> users = userService.getAllUsers();
+        return users.stream()
+                .sorted(Comparator.comparing(UserDto::getBonus)
+                        .reversed()).limit(10)
+                .map(x -> new TopTenDto(x.getFullName(), x.getBonus()))
+                .collect(Collectors.toList());
+    }
+
     private void updateHelpOptionList(UserDto userDto, List<String> helpOptions){
         userDto.setHelpOptions(helpOptions);
         userService.updateUser(userDto);
     }
 
-    // Function to generate a list of, m random non-negative integers, whose sum is n
-    private List<Integer> getRandomPercentage(Integer m, Integer n){
-        // Create an array of size m where every element is initialized to 0
-        int[] arr = new int[m];
-        List<Integer> integers = new ArrayList<>();
 
-        // To make the sum of the final list as n
-        for (int i = 0; i < n; i++) {
-            // Increment any random element from the array by 1
-            arr[(int)(Math.random() * m)]++;
-        }
-        Arrays.stream(arr).forEach(integers::add);
-        return integers;
-    }
 }
